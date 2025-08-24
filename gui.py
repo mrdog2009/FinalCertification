@@ -77,30 +77,29 @@ class App(tk.Tk):
 
         self.load_clients()
 
+    def validate_email(self, email):
+        pattern = r"[a-zA-Z0-9а-яА-Я._%+-]+@[a-zA-Z0-9а-яА-Я.-]+\.[a-zA-Zа-яА-Я]{2,}"
+        if not re.match(pattern, email):
+            return False
+        return True
+
+    def validate_phone(self, phone):
+        pattern = r"^\+[0-9]{1,11}"
+        if not re.match(pattern, phone):
+            return False
+        return True
 
     def add_client(self):
-        def validate_email(email):
-            pattern = r"[a-zA-Z0-9а-яА-Я._%+-]+@[a-zA-Z0-9а-яА-Я.-]+\.[a-zA-Zа-яА-Я]{2,}"
-            if not re.match(pattern, email):
-                return False
-            return True
-
-        def validate_phone(phone):
-            pattern = r"^\+[0-9]{1,11}"
-            if not re.match(pattern, phone):
-                return False
-            return True
-
         name = self.client_name_var.get()
         email = self.client_email_var.get()
         phone = self.client_phone_var.get()
         if not name:
             messagebox.showerror("Ошибка", "Имя клиента обязательно")
             return
-        if not validate_email(email):
+        if not self.validate_email(email):
             messagebox.showerror("Ошибка", "Не верный email")
             return
-        if not validate_phone(phone):
+        if not self.validate_phone(phone):
             messagebox.showerror("Ошибка", "Не верный номер телефона")
             return
         client = Client(name=name, email=email, phone=phone)

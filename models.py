@@ -1,7 +1,6 @@
 from datetime import datetime
-from abc import ABC, abstractmethod
 
-class BaseEntity(ABC):
+class BaseEntity():
     """Базовый абстрактный класс с id и датой создания."""
 
     def __init__(self, id=None, created_at=None):
@@ -16,12 +15,10 @@ class BaseEntity(ABC):
     def created_at(self):
         return self._created_at
 
-    @abstractmethod
     def to_dict(self):
         pass
 
     @classmethod
-    @abstractmethod
     def from_dict(cls, data):
         pass
 
@@ -110,7 +107,6 @@ class Order(BaseEntity):
             "id": self._id,
             "client_id": self.client.id if self.client else None,
             "items": [item.to_dict() for item in self.items],
-            #"created_at": self._created_at.isoformat(),
             "created_at": self._created_at,
         }
 
